@@ -28,7 +28,7 @@ module IceCube
     VALIDATION_ORDER = [
       :year, :month, :day, :wday, :hour, :min, :sec, :count, :until,
       :base_sec, :base_min, :base_day, :base_hour, :base_month, :base_wday,
-      :day_of_year, :second_of_minute, :minute_of_hour, :day_of_month,
+      :day_of_year, :offset_from_pascha, :second_of_minute, :minute_of_hour, :day_of_month,
       :hour_of_day, :month_of_year, :day_of_week,
       :interval
     ]

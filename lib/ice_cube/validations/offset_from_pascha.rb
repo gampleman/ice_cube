@@ -2,8 +2,10 @@ module IceCube
 
   module Validations::OffsetFromPascha
 
-    def offset_from_pascha(offset)
-      validations_for(:offset_from_pascha) << Validation.new(offset)
+    def offset_from_pascha(*offsets)
+      offsets.each do |offset|
+        validations_for(:offset_from_pascha) << Validation.new(offset)
+      end
       
       clobber_base_validations(:month, :day, :wday)
       self

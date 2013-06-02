@@ -55,5 +55,14 @@ describe IceCube::YearlyRule, 'occurs_on?' do
     #check assumption
     schedule.occurrences(Time.utc(2013, 4, 27)).size.should == 1
   end
+  
+  it 'should correctly schedule based on multiple Pascha offsets' do
+    schedule = IceCube::Schedule.new(Time.utc(2013, 1, 1))
+    schedule.add_recurrence_rule IceCube::Rule.yearly.offset_from_pascha(-12, 6)
+    #check assumption
+    schedule.occurs_at?(Time.utc(2013, 4, 23)).should be_true
+    schedule.occurs_at?(Time.utc(2013, 5, 10)).should be_false
+    schedule.occurs_at?(Time.utc(2013, 5, 11)).should be_true
+  end
 
 end

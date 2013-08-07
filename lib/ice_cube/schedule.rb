@@ -282,6 +282,15 @@ module IceCube
     def to_ical(force_utc = false)
       pieces = []
       pieces << "DTSTART#{IcalBuilder.ical_format(start_time, force_utc)}"
+      ps = []
+      if recurrence_rules.find{|r| r.validations_for(:offset_from_pascha).count > 0 }
+        occs = self.next_occurrences(5)
+        opts = {}
+        opts[:end_time] = self.end_time if self.end_time
+        exp = Schedule.new self.start_time, opts
+        occs.each{|o| exp.add_recurrence_time o.start_time }
+        return exp.to_ical
+      end
       pieces.concat recurrence_rules.map { |r| "RRULE:#{r.to_ical}" }
       pieces.concat exception_rules.map  { |r| "EXRULE:#{r.to_ical}" }
       pieces.concat recurrence_times_without_start_time.map { |t| "RDATE#{IcalBuilder.ical_format(t, force_utc)}" }
